@@ -1,0 +1,123 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+
+<!--
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <script src="//d3js.org/d3.v4.0.0-alpha.26.min.js"></script> -->
+        <!-- <script src="https://d3js.org/d3-queue.v2.min.js"></script> -->
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.1/lodash.js" charset="utf-8"></script>
+
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <h1>Combining/merging data may involve one of the following tasks:</h1>
+
+        <p>Combine data sets by one or more common attributes
+        Add together rows from different data sets
+        Combine attributes from different data sets
+        </p>
+        <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+
+<!-- load jsData Cheetsheet -->
+        <script src="js/index.js"></script>
+
+
+        <!-- <script>
+
+        var articles = [{
+            "id": 1,
+            "name": "vacuum cleaner",
+            "weight": 9.9,
+            "price": 89.9,
+            "brand_id": 2
+        }, {
+            "id": 2,
+            "name": "washing machine",
+            "weight": 540,
+            "price": 230,
+            "brand_id": 1
+        }, {
+            "id": 3,
+            "name": "hair dryer",
+            "weight": 1.2,
+            "price": 24.99,
+            "brand_id": 2
+        }, {
+            "id": 4,
+            "name": "super fast laptop",
+            "weight": 400,
+            "price": 899.9,
+            "brand_id": 3
+        }];
+
+
+        var brands = [{
+            "id": 1,
+            "name": "SuperKitchen"
+        }, {
+            "id": 2,
+            "name": "HomeSweetHome"
+        }];
+
+
+        var result = join(brands, articles, "id", "brand_id", function(article, brand) {
+            return {
+                id: article.id,
+                name: article.name,
+                weight: article.weight,
+                price: article.price,
+                brand: (brand !== undefined) ? brand.name : null
+            };
+        });
+
+        console.log(result); -->
+
+        </script>
+
+        <script src="js/queue.js"></script>
+
+
+        <!-- <! <script src="js/plugins.js"></script> -->
+        <!-- <script src="js/main.js"></script> -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <!-- <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script> -->
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </body>
+</html>
