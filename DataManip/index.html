@@ -1,0 +1,183 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+
+        <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+        <!-- Place favicon.ico in the root directory -->
+
+
+
+
+      <!-- <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css"> -->
+
+        <!-- <script src="js/vendor/modernizr-2.8.3.min.js"></script> -->
+
+        <script src="//d3js.org/d3.v4.0.0-alpha.26.min.js"></script>
+        <!-- <script src="https://d3js.org/d3-queue.v2.min.js"></script> -->
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.1/lodash.js" charset="utf-8"></script>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <h1>Data manipulation:</h1>
+
+        <p>Lodash</p>
+        <!-- <p>Lodash</p>
+        <p>Lodash</p> -->
+
+
+        <!-- <p id="id1"></p>
+        <p id="id2"></p>
+        <p id="id3"></p> -->
+
+
+
+
+        <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
+        <!-- <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script> -->
+
+        <script type="text/JavaScript">
+
+        var array = [1, 4, 3, 4, 5, 6, 7, 8, 9, 0, 9, 6, 4, 0];
+
+         // Split array into array chunks of arrays
+         var result = _.chunk(array, 3)
+         console.log(JSON.stringify(result))
+         console.log(result[0][0]) // 1
+
+         // Creates a new array, and forget about falsy array elemtns
+         // Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+         var crash = [0, false, 22, NaN, 1000]
+         var result = _.compact(crash);
+
+         console.log(result)
+         console.log(result.length)
+
+         // concats arrays
+         // Creates a new array concatenating array with any additional arrays and/or values.
+         var array1 = [3, 4, 5, 2, 4, 5];
+         var array2 = ["a", "f", "df", "d", "dd", 5];
+
+         var concatres = _.concat(array1, array2);
+         console.log("concat: " + concatres) // creates a new array
+         console.log(concatres[3])
+
+
+         // _.difference(array, [values])
+         // creates a new array, compares fist with second, and leaves only the elements that have not been mentioned by second array
+
+         var arraya = ["a", 3, 4, 5, 2, 4, 5];
+         var arrayb = [3, 5, 2, 4, 5];
+         var diff = _.difference(arraya, arrayb)
+         console.log(diff); // "a"
+
+         console.log(_.differenceBy([3.1, 2.2, 1.3], [4.4, 2.5], Math.floor));
+
+
+// differenceWtih - compares with comparator function
+         // _.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
+          // → [{ 'x': 2, 'y': 1 }]
+          var array1 = ["s", 3, 5, 2, 4, 50000];
+          var array2 = ["a", 4, 55, 26, 47, 50000];
+          var result = _.differenceWith(array1, array2, _.isEqual);
+          console.log(result)
+
+
+// drop   drops elements, with second argument
+          var arraya = ["a", 3, 4, 5, 2, 4, 5];
+          var res = _.drop(arraya, 3) // 5, 2, 4, 5
+          console.log(res)
+
+
+
+// _.dropRightWhile
+          var users = [
+            { 'index': 1,  'active': true },
+            { 'index': 2,  'active': false },
+            { 'index': 3,  'active': false }
+          ];
+
+          var res = _.dropRightWhile(users, function(el) { if (el.index == 1) {return !el.index}});
+          console.log(res)
+
+// _.fill([4, 6, 8, 10], '*', 1, 3);
+// → [4, '*', '*', 10]
+          console.log(_.fill([4, 6, 8, 10, 3, 4, 5, 3, 2, 10], '*', 1, 5));
+          // replaces the positon between 1 and 3 postion
+
+// Gets the first element of array.
+          _.head(array) // everyhtin but the firt
+          _.initial([1, 2, 3]); // everyhtin but the last  //
+          // similar to
+          _.last(array)
+
+          console.log(_.join(['a', 'b', 'c'], '+++'));
+
+// countby - creates a key, that is the count of the number of elements in the array
+          var res1 = _.countBy([6, 4, 6, 6, 4, 6]);
+          console.log(JSON.stringify(res1));
+
+
+// sorting :
+var users = [
+{ 'user': 'fred',   'age': 48 },
+{ 'user': 'barney', 'age': 100000 },
+{ 'user': 'fred',   'age': 40 },
+{ 'user': 'aarney', 'age': 34 }
+];
+
+          console.log(_.sortBy(users, function(o) { return o.age; }));
+          console.log(_.sortBy(users, function(o) { return o.user; }));
+
+// simply sorting an array
+          var array = [1, 2, 2, 1, 4, 6, 7, 8, 9, 9, 5, 3, 3, 5]
+          console.log(_.sortBy(array))
+
+
+// get the current timestamp: // → Logs the number of milliseconds it took for the deferred function to be invoked.
+
+          console.log(_.now());
+
+
+
+
+        </script>
+
+
+        <!-- <script src="js/queue.js"></script> -->
+
+
+        <!-- <! <script src="js/plugins.js"></script> -->
+        <!-- <script src="js/main.js"></script> -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <!-- <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script> -->
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </body>
+</html>

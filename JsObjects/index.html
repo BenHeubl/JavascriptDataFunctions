@@ -1,0 +1,198 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+        <!-- Place favicon.ico in the root directory -->
+
+
+
+
+      <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <script src="//d3js.org/d3.v4.0.0-alpha.26.min.js"></script>
+        <!-- <script src="https://d3js.org/d3-queue.v2.min.js"></script> -->
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.1/lodash.js" charset="utf-8"></script>
+
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <h1>Making use of Objects in Javascript</h1>
+
+        <p>A general playground to test javascript Objects</p>
+
+        <script>
+        console.log("hello")
+
+        var object1 = {
+          name: "ben",
+          age: 22,
+          returnName: function () {
+            console.log("_gosh is " + this.name + " cool")
+            // Use this in methods to refer to the current object (also called the receiver of a
+            // method invocation).
+          }
+        }
+
+        object1.returnName();
+        console.log(object1.name);
+        object1.unknownProperty // returns undefines, when property of object doesnt exist
+
+        //resetting object's properties
+        object1.name = "Benedikt";
+        console.log(object1.name);
+        object1.returnName(); // changed the method call, now this refers to Benedikt
+
+        // delete properties
+        console.log(object1.age); // 22
+        delete object1.age
+        console.log(object1.age);  // undefined
+        console.log(Object.keys(object1)) // returns the object keys of the object - Good to know
+
+        // didnt know
+        // While you can’t use reserved words (such as var and function) as variable names, you can use them as property keys:
+        var obj = { 0.7: 'abc'}
+        console.log(obj['0.7'])
+
+        //accessing Object properties
+        var object2 = {someProperty: "concat the words in the key"}
+        console.log(object2['some' + 'Property'])
+// call a methdo with braket operator:
+        var object3 = { myMethod: function () { console.log("this is true") } }
+        object3['myMethod']();
+
+        // turning any value into an object
+        var examplearray = [0, 1, 4, 3, 2, "a", "b"];
+        console.log(Object(examplearray) instanceof Object);  // array is not an object
+
+        function isObject(value) {
+          return value === Object(value)
+        }
+
+        console.log(isObject(Object(examplearray)));
+
+        // advice from Rauschmayer:
+      //  Avoid the constructor; an empty object literal is almost always a bet‐
+      /// ter choice:
+        var obj = new Object(); // avoid
+        var obj = {}; // prefer
+
+        // this keyword:
+        var saying = {
+          name: "Ben",
+          says: function (othername) {
+            console.log(this.name + " says hi to " + othername);
+          }
+        }
+// call operator
+        saying.says("Peter");
+        saying.says.call(saying, 'Peter') // here you need to repeat the obejct name, because call() doesn’t know how you got the function that it is invoked on.
+        var func =   saying.says;
+        func.call(saying, 'Peter')
+// Function.prototype.apply(thisValue, argArray)
+// same thing, but method's argument needs to be wrapped in [] braces
+        saying.says("Peter");
+        saying.says.apply(saying, ['Peter']) // here you need to repeat the obejct name, because call() doesn’t know how you got the function that it is invoked on.
+        var func =   saying.says;
+        func.apply(saying, ['Peter'])
+
+// BIND - important:
+        function func () {
+          console.log('this: ' + this);
+          console.log("arguments " + Array.prototype.slice.call(arguments))
+        }
+
+        var bound = func.bind('abc', 1, 2)
+
+        bound(3)
+
+        // bound example:
+        this.x = 9;
+        var module = {
+          x: 81,
+          getX: function () { console.log(this.x) }
+        };
+
+        module.getX(); // 81
+
+        var retrieveX = module.getX;
+        retrieveX(); // 9
+
+        // The simplest use of bind() is to make a function that, no matter how it is called, is called with a particular this value. A common mistake for new JavaScript programmers is to extract a method from an object, then to later call that function and expect it to use the original object as its this (e.g. by using that method in callback-based code). Without special care, however, the original object is usually lost. Creating a bound function from the function, using the original object, neatly solves this problem:
+        var boundGetX = retrieveX.bind(module);  // bound to object module
+        boundGetX(); // 81
+
+
+
+
+
+
+
+        </script>
+
+
+
+        <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+
+        <!-- <script>
+
+        var data = [
+          {"city":"seattle", "state":"WA", "population":652405, "land_area":83.9},
+          {"city":"new york", "state":"NY", "population":8405837, "land_area":302.6},
+          {"city":"boston", "state":"MA", "population":645966, "land_area":48.3},
+          {"city":"kansas city", "state":"MO", "population":467007, "land_area":315}
+        ];
+
+        ///Min & Max
+        var populatonMin = d3.min(data, function (d) {
+          return +d.land_area;
+        })
+        console.log(populatonMin)
+
+        </script> -->
+<!-- load jsData Cheetsheet -->
+        <!-- <script src="js/index.js"></script> -->
+
+
+        <script src="js/queue.js"></script>
+
+
+        <!-- <! <script src="js/plugins.js"></script> -->
+        <!-- <script src="js/main.js"></script> -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <!-- <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script> -->
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </body>
+</html>

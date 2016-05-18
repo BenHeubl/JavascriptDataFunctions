@@ -1,0 +1,391 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+        <!-- Place favicon.ico in the root directory -->
+
+
+        <style>
+
+        body {
+          font: 10px sans-serif;
+        }
+
+        .bar rect {
+          fill: steelblue;
+          shape-rendering: crispEdges;
+        }
+
+        .bar text {
+          fill: #fff;
+        }
+
+        .axis path, .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+
+        body{
+          width: 900px;
+          margin: 0px auto;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          background: #F5F5F5;
+        }
+        h1{
+        }
+        h1, h3{
+          margin: 50px;
+          text-align: center;
+        }
+        h3{
+          margin-bottom: 20px;
+        }
+        svg{
+          overflow: visible;
+        }
+        text {
+          font-size: 12px;
+          text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+        }
+        .axis line, .axis path {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        .annotations path{
+          fill: none;
+          stroke: black;
+        }
+        .annotations g:hover circle{
+          stroke: red;
+        }
+        .annotations g:hover text{
+          fill: red;
+        }
+        div.tooltip {
+          top: -1000px;
+          position: absolute;
+          padding: 10px;
+          background: rgba(255, 255, 255, .90);
+          border: 1px solid lightgray;
+          pointer-events: none;
+          z-index: 100;
+        }
+        .tooltip-hidden{
+          opacity: 0;
+        }
+        #chart{
+          display: inline-block;
+          width: 500px;
+          position: relative;
+          z-index: 2;
+        }
+        #annotations-update{
+          display: inline-block;
+          width: 380px;
+          position: relative;
+          top: -25px;
+          left: -120px;
+          /*background: #eee;*/
+        }
+        .mono, m{
+          font-family: monospace;
+          display: inline;
+          font-size: 14px;
+          background: #ddd;
+          padding: .05em;
+          padding-left: .2em;
+          padding-right: .2em;
+          border-radius: 6px;
+        }
+        p{
+          max-width: 600px;
+          margin: 0px auto;
+          font-size: 16px;
+          line-height: 1.4em;
+        }
+        pre{
+          font-size: 14px;
+          margin: 0px;
+          margin-left: 150px;
+          padding-left: 15px;
+          border-left: 2px solid #ccc;
+        }
+        p, pre{
+          margin-bottom: 30px;
+        }
+        #resizable {
+          position: relative;
+          width: 500px;
+          height: 520px;
+          margin-bottom: 40px;
+        }
+        #resizable .resizer {
+          position: absolute;
+          width: 10px;
+          top: 0;
+          bottom: 0;
+          right: -44px;
+          background: #ccc;
+          opacity: .5;
+          cursor: pointer;
+        }
+        a{
+          color: black;
+        }
+
+        </style>
+
+
+
+      <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
+        <script src="//d3js.org/d3.v4.0.0-alpha.26.min.js"></script>
+        <!-- <script src="https://d3js.org/d3-queue.v2.min.js"></script> -->
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.1/lodash.js" charset="utf-8"></script>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+        <script src="js/swoopy-drag.js"></script>
+
+        <script src='js/d3-jetpack.js'></script>
+        <script src='js/d3-starterkit.js'></script>
+
+
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <h1>D3 Annotations:</h1>
+
+        <p>Using Adam Pearce's swoopy-drag library</p>
+        <div id="graph"></div>
+        <div id='annotations-update'></div>
+
+
+
+        <script type="text/javascript">
+
+        var values = d3.range(1000).map(d3.random.bates(10));
+
+        // console.log(values)
+
+        var formatCount = d3.format(",.0f")
+
+        var margin = {top: 10, right: 30, bottom: 30, left: 30},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+        var x =  d3.scale.linear().domain([0, 1]).range([0, width]);
+
+        var data = d3.layout.histogram().bins(x.ticks(20))
+        (values);
+
+        console.log(data)
+
+        var y = d3.scale.linear()
+        .domain([0, d3.max(data, function (d) {return d.y})])
+        .range([height, 0])
+
+        var axis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+
+
+
+
+
+
+        var svg = d3.select("#graph").append("svg").classed("hello", true)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.bottom + margin.top)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var bar = svg.selectAll(".bar")
+        .data(data)
+        .enter().append("g")
+        .classed("bar", true)
+        .attr("transform", function (d) {
+          return "translate(" + x(d.x) + ", " + y(d.y) + ")"
+        })
+
+        bar.append("rect")
+        .attr("x", 1)
+        .attr("width", x(data[0].dx) - 1) // what is dx ???
+        .attr("height", function (d) {
+          return height - y(d.y);
+        })
+
+        bar.append("text")
+        .attr("dy", "0.75em")
+        .attr("y", 6)
+        .attr("x", x(data[0].dx)/2)
+        .attr("text-anchor", "middle")
+        .text(function (d) {
+          return formatCount(d.y);
+        })
+
+        svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate("+ 0 +","+ height +")")
+        .call(axis)
+
+
+        // swoopy defined
+        // to generate annotations:
+        // copy(annotations)
+
+
+        var annotations = [
+  {
+    "xVal": 4.4,
+    "yVal": 5.7,
+    "path": "M194,415L303,246",
+    "text": "Death of the Queen",
+    "textOffset": [
+      84,
+      429
+    ]
+  },
+  {
+    "xVal": 3.8,
+    "yVal": 7.7,
+    "path": "M234,70C328,112,329,96,375,160",
+    "text": "bombs where dropped",
+    "textOffset": [
+      140,
+      54
+    ]
+  },
+  {
+    "xVal": 2.3,
+    "yVal": 5,
+    "path": "M626,177C611,188,526,108,561,261",
+    "text": "Bike was stolen in China",
+    "textOffset": [
+      639,
+      182
+    ]
+  }
+]
+// var dragToResize = {
+//     "xVal": 4.4,
+//     "yVal": 5,
+//     "path": "M22,-283C84,-279,84,-356,18,-350",
+//     "text": "Drag to resize",
+//     "textOffset": [
+//       91,
+//       -334
+//     ]
+//   }
+
+
+
+          var c = d3.conventions({parentSel: d3.select('#graph'), width: 200})
+
+          var swoopy = d3.swoopyDrag()
+                    // .draggable(true)
+                    .x(function (d) { return ('xVal', c.x) })
+                    .y(function (d) { return ('yVal', c.y) })
+                    .annotations(annotations)
+                    // .on('drag', function(){
+                    //   annotationText.text('var annotations = ' + JSON.stringify(annotations, null, 2))
+                    // })
+
+                    var annotationText = d3.select('#annotations-update')
+                    // .append('pre')
+
+
+
+          var swoopySel = svg.append('g.annotations')
+                        // .attr("class", function (i) {return "class1_" + i} )
+                        .call(swoopy)
+                        .selectAll('path')
+                                          .attr('marker-end', 'url(#arrow)')
+          //
+          // swoopySel.selectAll('path')
+          //                   .attr('marker-end', 'url(#arrow)')
+
+          svg.append('marker')
+                                .attr('id', 'arrow')
+                                .attr('viewBox', '-10 -10 20 20')
+                                .attr('markerWidth', 20)
+                                .attr('markerHeight', 20)
+                                .attr('orient', 'auto')
+                              .append('path')
+                              .attr("fill", "red")
+                                .attr('d', 'M-6.75,-6.75 L 0,0 L -6.75,6.75')
+
+
+
+
+         </script>
+
+
+
+
+
+        <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+
+        <!-- <script>
+
+        var data = [
+          {"city":"seattle", "state":"WA", "population":652405, "land_area":83.9},
+          {"city":"new york", "state":"NY", "population":8405837, "land_area":302.6},
+          {"city":"boston", "state":"MA", "population":645966, "land_area":48.3},
+          {"city":"kansas city", "state":"MO", "population":467007, "land_area":315}
+        ];
+
+        ///Min & Max
+        var populatonMin = d3.min(data, function (d) {
+          return +d.land_area;
+        })
+        console.log(populatonMin)
+
+        </script> -->
+<!-- load jsData Cheetsheet -->
+        <!-- <script src="js/index.js"></script> -->
+
+
+
+        <script src="js/queue.js"></script>
+
+
+        <!-- <! <script src="js/plugins.js"></script> -->
+        <!-- <script src="js/main.js"></script> -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <!-- <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        </script> -->
+
+                <script src="https://d3js.org/d3-queue.v2.min.js" charset="utf-8"></script>
+    </body>
+</html>
